@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Travaillons ensemble · Sara El Mountasser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{color-scheme:dark;--night:#161617;--on:#F4F5F7;--on2:#A9ACB3;--line:#3A3B3E;--cyan:#29D5FF;--pink:#FF48A6;--lime:#93D522;--grad:linear-gradient(90deg,var(--cyan),var(--pink) 55%,var(--lime));
+  --display:"Plus Jakarta Sans","Helvetica Neue",Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--night);color:var(--on);font-family:var(--display);-webkit-font-smoothing:antialiased}
+body{min-height:100svh;display:grid;grid-template-rows:auto 1fr;overflow-x:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));max-width:1200px;width:100%;margin:0 auto}
+.back{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--on2);text-decoration:none;display:inline-flex;gap:8px;align-items:center;cursor:pointer;background:none;border:0;padding:8px 0}
+.back:hover{color:var(--on)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.95rem}
+.logo i{width:10px;height:10px;border-radius:50%;background:var(--grad);box-shadow:0 0 14px var(--pink)}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:clamp(24px,5vw,72px);max-width:1200px;width:100%;margin:0 auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+.stage{position:relative;display:grid;place-items:center;min-height:min(70svh,560px)}
+.stage::before{content:"";position:absolute;width:min(90%,460px);aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,var(--cyan),var(--pink),var(--lime),var(--cyan));filter:blur(60px);opacity:.28;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+svg.bot{position:relative;width:min(100%,400px);height:auto;overflow:visible}
+.bot .float{animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px)}}
+.bot .arm{transform-box:fill-box;transform-origin:15% 85%;animation:wave 2.4s ease-in-out infinite}
+@keyframes wave{0%,55%,100%{transform:rotate(0)}10%,30%{transform:rotate(-28deg)}20%,40%{transform:rotate(-8deg)}}
+.bot .ant{animation:ping 1.6s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ping{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.bot .lid{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.talk{display:grid;gap:22px;justify-items:start;min-width:0}
+.kick{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--on2)}
+.bubble{position:relative;background:#fff;color:#111214;border-radius:28px;padding:clamp(22px,3vw,34px) clamp(24px,3.2vw,38px);font-size:clamp(2rem,4.6vw,4rem);font-weight:800;letter-spacing:-.045em;line-height:1;max-width:11em;text-wrap:balance;min-height:2.2em}
+.bubble::before{content:"";position:absolute;left:-14px;top:40%;border:14px solid transparent;border-right-color:#fff;border-left:0}
+.bubble .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.caret{display:inline-block;width:.08em;height:.85em;background:#111214;vertical-align:-.08em;margin-left:.05em;animation:car 1s steps(1) infinite}
+@keyframes car{50%{opacity:0}}
+.sub{font-size:1.1rem;color:var(--on2);max-width:30em;line-height:1.5}
+.acts{display:flex;flex-wrap:wrap;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 20px;font-weight:600;font-size:.95rem;text-decoration:none;border:0;cursor:pointer;font-family:var(--display);transition:transform .25s,box-shadow .25s;white-space:nowrap}
+.pill.c{background:var(--cyan);color:#06222B}
+.pill.c:hover{box-shadow:0 0 0 6px rgba(41,213,255,.18);transform:translateY(-1px)}
+.pill.o{background:transparent;color:var(--on);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.pill.o:hover{box-shadow:inset 0 0 0 1.5px var(--on)}
+.mail{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:.9rem;color:var(--on2)}
+.mail span{user-select:all;color:var(--on)}
+.copy{font-family:var(--mono);font-size:.72rem;border:1px solid var(--line);background:transparent;color:var(--on2);border-radius:999px;padding:4px 10px;cursor:pointer}
+.copy:hover{border-color:var(--cyan);color:var(--cyan)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+.reveal.on{opacity:1;transform:none}
+html{overflow-x:hidden}
+@media (max-width:860px){main{grid-template-columns:1fr;padding-top:8px;overflow-x:clip}.stage{min-height:0;padding-block:12px}svg.bot{width:min(70%,260px)}.bubble::before{left:50%;top:-14px;margin-left:-14px;border:14px solid transparent;border-bottom-color:#fff;border-top:0}}
+@media (prefers-reduced-motion:reduce){.bot *,.stage::before,.caret{animation:none!important}.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="back" type="button" id="back">← Retour au site</button>
+  <span class="logo"><i></i>Sara El Mountasser</span>
+</header>
+<main>
+  <div class="stage" aria-hidden="true">
+    <svg class="bot" viewBox="0 0 320 380">
+      <defs>
+        <linearGradient id="gb" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#29D5FF"/><stop offset=".55" stop-color="#FF48A6"/><stop offset="1" stop-color="#93D522"/></linearGradient>
+        <linearGradient id="body" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2A2A2D"/><stop offset="1" stop-color="#1C1C1E"/></linearGradient>
+      </defs>
+      <ellipse cx="160" cy="364" rx="86" ry="10" fill="#000" opacity=".45"/>
+      <g class="float">
+        <!-- antenna -->
+        <line x1="160" y1="58" x2="160" y2="28" stroke="#F4F5F7" stroke-width="4" stroke-linecap="round"/>
+        <circle class="ant" cx="160" cy="22" r="9" fill="none" stroke="#FF48A6" stroke-width="3"/>
+        <circle cx="160" cy="22" r="9" fill="#FF48A6"/>
+        <!-- head -->
+        <rect x="78" y="58" width="164" height="124" rx="40" fill="url(#body)" stroke="url(#gb)" stroke-width="3"/>
+        <rect x="96" y="80" width="128" height="80" rx="26" fill="#0E0E0F"/>
+        <g id="eyes">
+          <g class="lid"><ellipse id="e1" cx="134" cy="114" rx="11" ry="14" fill="#29D5FF"/></g>
+          <g class="lid"><ellipse id="e2" cx="186" cy="114" rx="11" ry="14" fill="#29D5FF"/></g>
+        </g>
+        <path d="M140 140 Q160 154 180 140" fill="none" stroke="#93D522" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="72" cy="120" r="10" fill="#2A2A2D" stroke="#3A3B3E" stroke-width="2"/>
+        <circle cx="248" cy="120" r="10" fill="#2A2A2D" stroke="#3A3B3E" stroke-width="2"/>
+        <!-- neck + body -->
+        <rect x="146" y="182" width="28" height="16" rx="6" fill="#2A2A2D"/>
+        <rect x="96" y="196" width="128" height="120" rx="34" fill="url(#body)" stroke="#3A3B3E" stroke-width="2"/>
+        <circle cx="160" cy="246" r="20" fill="none" stroke="url(#gb)" stroke-width="4"/>
+        <circle cx="160" cy="246" r="7" fill="#FF48A6"/>
+        <rect x="128" y="284" width="64" height="8" rx="4" fill="#3A3B3E"/>
+        <!-- arms -->
+        <rect x="60" y="210" width="30" height="80" rx="15" fill="#2A2A2D" stroke="#3A3B3E" stroke-width="2"/>
+        <g class="arm"><rect x="230" y="150" width="30" height="80" rx="15" fill="#2A2A2D" stroke="url(#gb)" stroke-width="2.5" transform="rotate(-20 245 230)"/>
+          <circle cx="268" cy="146" r="16" fill="#F4F5F7"/></g>
+        <!-- legs -->
+        <rect x="118" y="314" width="28" height="36" rx="12" fill="#2A2A2D"/>
+        <rect x="174" y="314" width="28" height="36" rx="12" fill="#2A2A2D"/>
+      </g>
+    </svg>
+  </div>
+  <div class="talk">
+    <span class="kick">Vous cherchiez mon CV</span>
+    <p class="bubble" id="say" aria-label="Commençons à travailler ensemble ?"></p>
+    <p class="sub reveal">Le meilleur résumé de mon parcours tient en une conversation. Appelez-moi, je vous envoie mon CV complet.</p>
+    <div class="mail reveal">Téléphone&nbsp;: <span id="mail">+33&nbsp;6&nbsp;63&nbsp;61&nbsp;82&nbsp;79</span><button class="copy" type="button" id="copy">Copier</button></div>
+  </div>
+</main>
+<script>
+(function(){
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const say=document.getElementById('say'), parts=[['Commençons à ',''],['travailler ensemble','g'],[' ?','']];
+  const full=parts.map(p=>p[0]).join(''), render=n=>{let left=n,html='';parts.forEach(([s,c])=>{const k=Math.max(0,Math.min(s.length,left));left-=s.length;if(k)html+=c?`<span class="${c}">${s.slice(0,k)}</span>`:s.slice(0,k);});return html;};
+  const show=()=>document.querySelectorAll('.reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('on'),i*140));
+  if(RM){say.innerHTML=render(full.length);show();}
+  else{let i=0;const step=()=>{i++;say.innerHTML=render(i)+'<span class="caret"></span>';if(i<full.length)setTimeout(step,i<3?260:55);else setTimeout(show,250);};setTimeout(step,600);}
+  // eyes follow the pointer
+  const eyes=[document.getElementById('e1'),document.getElementById('e2')], base=[[134,114],[186,114]], svg=document.querySelector('svg.bot');
+  if(!RM) addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect(), sx=320/r.width, x=(e.clientX-r.left)*sx, y=(e.clientY-r.top)*sx;
+    eyes.forEach((el,k)=>{const dx=x-base[k][0], dy=y-base[k][1], d=Math.hypot(dx,dy)||1, m=Math.min(6,d/30);el.setAttribute('cx',base[k][0]+dx/d*m);el.setAttribute('cy',base[k][1]+dy/d*m);});});
+  // back to the site
+  document.getElementById('back').addEventListener('click',()=>{ if(history.length>1) history.back(); else location.href='./'; });
+  // copy the phone number
+  const cp=document.getElementById('copy'), m=document.getElementById('mail');
+  cp.addEventListener('click',()=>{const sel=()=>{const r=document.createRange();r.selectNodeContents(m);const s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='Sélectionné';};
+    try{navigator.clipboard.writeText(m.textContent.replace(/\s/g,'')).then(()=>{cp.textContent='Copié ✓';setTimeout(()=>cp.textContent='Copier',1800);},sel);}catch(e){sel();}});
+})();
+</script>
+</body>
+</html>
