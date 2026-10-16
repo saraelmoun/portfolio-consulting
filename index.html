@@ -355,6 +355,8 @@ input[type=range]{width:100%;accent-color:var(--cyan)}
   .cgrid{align-content:space-between}
 }
 @media (prefers-reduced-motion:reduce){.ctag::before,.cd-h i,.cd-t::after{animation:none}.cd-stamp{transition:none}}
+/* stacked cards dim under the next one through an opaque veil, so nothing beneath ever shows through */
+.vcard::after,.cpanel::after{content:"";position:absolute;inset:0;border-radius:inherit;background:#0B0B0C;opacity:var(--dim,0);pointer-events:none;z-index:20}
 /* ---------- 02 pourquoi: stacked value cards ---------- */
 .why-head{padding-block:clamp(80px,11vw,150px) clamp(32px,5vw,56px);display:grid;gap:20px}
 .why-title{font-size:clamp(3rem,9vw,8rem);letter-spacing:-.05em;line-height:.92}
@@ -460,6 +462,7 @@ footer .in{padding-block:28px 40px;border-top:1px solid var(--line-dark);display
 .mf .wd.on{color:var(--ink)}
 .mf .wd.hl.on{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .no-js .mf .wd{color:var(--ink)}
+@media (max-width:700px){.mf .wd{color:#A4A8B0}}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.055;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .cur,.cur-dot{position:fixed;left:0;top:0;pointer-events:none;z-index:80;display:none}
@@ -582,7 +585,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
 .hb-say small{display:block;font-family:var(--mono);font-weight:500;font-size:.62em;letter-spacing:.04em;color:#A9ACB3;margin-top:6px}
 .hb-say .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hbot:hover .hb-say{transform:translateY(-3px)}
-@media (max-width:900px){.hbot{top:auto;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:96px}.hb-say{top:-6%;font-size:1rem;padding:11px 14px}}
+@media (max-width:900px){.hbot{top:auto;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:96px}.hb-say{top:-6%;font-size:1rem;padding:11px 14px}.hb-say small{font-size:.74em}}
 @media (prefers-reduced-motion:reduce){.hb-float,.hb-arm,.hb-ant,.hb-lid{animation:none}.hb-say{transition:none}}
 /* V20: one composition — single grid, robot perched on the name, softer bubble */
 .hname-wrap{width:auto;margin-left:0}
@@ -1042,8 +1045,9 @@ const heroFlow={setOpen(){}};
 (function(){const r=document.querySelector('.rot'); if(!r||RM) return; const w=[...r.children]; let i=0;
   setInterval(()=>{const a=w[i]; i=(i+1)%w.length; const b=w[i]; a.classList.remove('on'); a.classList.add('out'); b.classList.remove('out'); b.classList.add('on');
     setTimeout(()=>a.classList.remove('out'),750);},2200);})();
-Flow(document.getElementById('hzc'),{px:.88,py:.5,lines:24,intro:false,host:document.querySelector('.hz-dark'),dim:.55,bloom:false});
-Flow(document.getElementById('flow2'),{px:.88,py:.3,lines:24,intro:false,host:document.getElementById('contact'),dim:.55,bloom:false});
+const PH=matchMedia('(max-width:700px)').matches;   // on phones the bright point moves off the text
+Flow(document.getElementById('hzc'),{px:.88,py:PH?.13:.5,lines:24,intro:false,host:document.querySelector('.hz-dark'),dim:.55,bloom:false});
+Flow(document.getElementById('flow2'),{px:.88,py:PH?.86:.3,lines:24,intro:false,host:document.getElementById('contact'),dim:PH?.4:.55,bloom:false});
 
 /* ========== mini canvases in "enjeu" cards ========== */
 document.querySelectorAll('canvas[data-mini]').forEach(cv=>{
@@ -2305,7 +2309,7 @@ function makeBot(T,R){
   // value cards: each card recedes as the next one slides over it
   const vc=gsap.utils.toArray('.vcard');
   vc.forEach((card,i)=>{ if(i===vc.length-1) return;
-    gsap.to(card,{scale:.93,opacity:.55,ease:'none',scrollTrigger:{trigger:vc[i+1],start:'top 70%',end:'top 12%',scrub:true}});
+    gsap.to(card,{scale:.93,'--dim':.5,ease:'none',scrollTrigger:{trigger:vc[i+1],start:'top 70%',end:'top 12%',scrub:true}});   // darken, never fade: a faded card lets the one beneath show through
   });
   gsap.from('.why-title',{y:60,duration:1.1,ease:'power4.out',scrollTrigger:{trigger:'.why-title',start:'top 88%'}});
   // BearingPoint figures count up
@@ -2327,7 +2331,7 @@ function makeBot(T,R){
   mm.add('(max-width:900px)',()=>{
     const cp=gsap.utils.toArray('.cpanel');
     cp.forEach((p,i)=>{ if(i===cp.length-1) return;
-      gsap.to(p,{scale:.93,opacity:.55,ease:'none',scrollTrigger:{trigger:cp[i+1],start:'top 70%',end:'top 12%',scrub:true}});});
+      gsap.to(p,{scale:.93,'--dim':.5,ease:'none',scrollTrigger:{trigger:cp[i+1],start:'top 70%',end:'top 12%',scrub:true}});});
   });
   addEventListener('load',()=>ScrollTrigger.refresh());
 })();
