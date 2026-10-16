@@ -695,12 +695,12 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
     </div>
   </section>
 
-  <div class="marquee" aria-label="Valeurs BearingPoint">
+  <div class="marquee" aria-label="BearingPoint values">
     <div class="track">
       <span>We are easy to work with</span><span>We create lasting outcomes</span><span>We empower people to succeed</span>
-      <span>Du signal à la décision</span><span>La transformation commence ici</span><span>Together we are more than business</span>
+      <span>From signal to decision</span><span>Transformation starts here</span><span>Together we are more than business</span>
       <span>We are easy to work with</span><span>We create lasting outcomes</span><span>We empower people to succeed</span>
-      <span>Du signal à la décision</span><span>La transformation commence ici</span><span>Together we are more than business</span>
+      <span>From signal to decision</span><span>Transformation starts here</span><span>Together we are more than business</span>
     </div>
   </div>
 
@@ -739,8 +739,8 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
           <span class="enum">03</span>
           <span class="label">Mouvement 3</span>
           <h3>L'IA change d'échelle.</h3>
-          <p>Générative et agentique : des agents prennent en charge la next best action, la Voix du Client, l'assistance aux conseillers. La personnalisation devient industrielle.</p>
-          <div class="reflex"><span class="label">Mon réflexe</span><p>Juger chaque cas d'usage IA sur le KPI qu'il sert, pas sur la démonstration.</p></div>
+          <p>Des agents IA prennent en charge la next best action et la Voix du Client.</p>
+          <div class="reflex"><span class="label">Mon réflexe</span><p>Garder un usage de l'IA seulement s'il fait bouger un KPI.</p></div>
         </article>
       </div>
     </div>
@@ -1731,6 +1731,7 @@ document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{co
   wideQ.addEventListener&&wideQ.addEventListener('change',()=>setCols(openIdx));
   grid.critPump=(i,on)=>{ const s=S[i]; if(s){ s.pump=on; wake(); } };
   grid.critBoost=(i,on)=>{ const s=S[i]; if(s) s.boost=on; };
+  grid.critRelease=()=>{ S.forEach(o=>o.target=0); wake(); };
   grid.critTease=(i,ms)=>{ const s=S[i]; if(!s||RM) return; s.peekUntil=performance.now()+ms; wake(); };
   S.forEach(s=>{
     if(fine){
@@ -2052,10 +2053,12 @@ function makeBot(T,R){
     if(demo&&i!==coach) endDemo(); else if(demo){ demo=false; pumping=false; pump(coach,false); }   // the visitor takes over
     if(!R||RM){ tell(touch?'Parfait, attendez…':'Gardez la souris dessus…','la couleur monte jusqu’en haut'); return; }
     coach=i; doneT=0; mode='gas'; boost(i,true); tell('Plein gaz !',touch?'la couleur monte jusqu’en haut':'gardez la souris dessus'); });
-  grid.addEventListener('crit-leave',()=>{ look=-1; if(mode==='gas'&&!demo&&coach>=0&&!cards[coach].classList.contains('full')){ boost(coach,false); tell('Presque !',touch?'touchez une carte et attendez':'restez un peu plus longtemps',2600); doneT=performance.now()+1800; } });
+  grid.addEventListener('crit-leave',()=>{ look=-1; if(mode!=='gas'||demo||coach<0) return;
+    if(!cards[coach].classList.contains('full')){ boost(coach,false); tell('Presque !',touch?'touchez une carte et attendez':'restez un peu plus longtemps',2600); doneT=performance.now()+1800; }
+    else doneT=performance.now()+1200; });   // the visitor is done: back on tour shortly
   grid.addEventListener('crit-full',e=>{ if(e.detail!==coach) return; const now=performance.now(); spinT=now+120; waveT=now; boost(coach,false);
     if(demo){ tell('Et voilà !',`à vous : ${touch?'touchez':'survolez'} une carte`); doneT=now+4200; }
-    else { tell('Et voilà !','chaque carte a son histoire',2600); doneT=now+2600; } });
+    else { tell('Et voilà !','chaque carte a son histoire',2600); doneT=now+(touch?3600:2600); } });
 
   // ---- no WebGL, or reduced motion: just the invitation, beside the cards ----
   if(!R||RM){
@@ -2078,7 +2081,7 @@ function makeBot(T,R){
 
   const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2, sst=(a,b,x)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x);};
   let leg=null, pos={x:0,y:0,z:0}, vx=0, last=performance.now(), blinkAt=last+1800;
-  function start(){ if(mode!=='off') return; size(); if(touched){ pos={...rest(),z:0}; mode='rest'; return; }
+  function start(){ if(mode!=='off') return; size();
     const to=gas(0); leg={from:{x:W+90,y:to.y-120,z:420},to:{...to,z:0},t0:performance.now(),dur:1400}; mode='tour'; }
   if(RM){ mode='rest'; size(); pos={...rest(),z:0}; }
   else { const io=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ setTimeout(start,250); io.disconnect(); } },{threshold:.55}); io.observe(grid); }
@@ -2096,14 +2099,17 @@ function makeBot(T,R){
       const k=Math.min(1,(now-leg.t0)/leg.dur), u=ease(k), f=leg.from, t=gas(0), cy=Math.min(f.y,t.y)-40;
       const nx=(1-u)*(1-u)*f.x+2*(1-u)*u*((f.x+t.x)/2)+u*u*t.x, ny=(1-u)*(1-u)*f.y+2*(1-u)*u*cy+u*u*t.y;
       vx=(nx-pos.x)/Math.max(dt,.001); pos={x:nx,y:ny,z:f.z*(1-u)}; travel=1-sst(.8,1,k); thr=.5+.8*travel; roll=-Math.PI*2*sst(.25,.7,k);
-      if(k>=1){ if(touched) mode='home'; else startDemo(0); }
+      if(k>=1) startDemo(0);
     } else if(mode==='gas'&&coach>=0){   // full throttle into the card until its effect unlocks
       const p=gas(coach), d=Math.hypot(p.x-pos.x,p.y-pos.y); pos.x+=(p.x-pos.x)*.12; pos.y+=(p.y-pos.y)*.12; pos.z*=.9; vx=(p.x-pos.x)*4;
       travel=Math.min(1,d/90); const full=cards[coach].classList.contains('full'), going=!doneT||!full;
       if(demo&&!pumping&&travel<.35){ pumping=true; pump(coach,true); boost(coach,true); }   // arrived: open the throttle
       if(travel<.35){ pitch=.35; if(!full&&!doneT&&(!demo||pumping)){ thr=2.6+Math.sin(now*.05)*.25; shake=1; } else thr=.45; }
       else thr=.4+.7*travel;
-      if(doneT&&now>doneT){ doneT=0; if(demo){ const n=nextCard(coach); endDemo(); startDemo(n); } else { coach=-1; mode='home'; } }
+      if(doneT&&now>doneT){ doneT=0; const n=nextCard(coach);   // the tour never stops: once the visitor lets go, on to the next card
+        if(demo){ endDemo(); startDemo(n); }
+        else if(look<0||touch){ boost(coach,false); if(touch){ look=-1; grid.critRelease&&grid.critRelease(); } startDemo(n); }
+        else doneT=now+400; }
     } else if(mode==='home'){   // back to its perch
       const p=rest(); pos.x+=(p.x-pos.x)*.08; pos.y+=(p.y-pos.y)*.08; pos.z*=.9; vx=(p.x-pos.x)*3; thr=.6; if(Math.hypot(p.x-pos.x,p.y-pos.y)<2) mode='rest';
     } else { const p=rest(); pos.x+=(p.x-pos.x)*.2; pos.y+=(p.y-pos.y)*.2; pos.z*=.9; vx*=.9; }
